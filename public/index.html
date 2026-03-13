@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <style>
+      /* ---- Reset & Base ---- */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Segoe UI', sans-serif;
+        background: #f0f2f5;
+        display: flex;
+        justify-content: center;
+        padding: 40px 16px;
+      }
+
+      /* ---- Container ---- */
+      .container {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        padding: 32px;
+        width: 100%;
+        max-width: 480px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 24px;
+        color: #333;
+        text-align: center;
+      }
+
+      /* ---- Input row ---- */
+      .input-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 24px;
+      }
+
+      #todo-input {
+        flex: 1;
+        padding: 10px 14px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      #todo-input:focus {
+        border-color: #4f8ef7;
+      }
+
+      #add-btn {
+        padding: 10px 18px;
+        background: #4f8ef7;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      #add-btn:hover {
+        background: #3a75d4;
+      }
+
+      /* ---- Todo list ---- */
+      #todo-list {
+        list-style: none;
+      }
+
+      /* แต่ละ todo item */
+      .todo-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 8px;
+        border-bottom: 1px solid #eee;
+        transition: background 0.15s;
+      }
+
+      .todo-item:last-child {
+        border-bottom: none;
+      }
+
+      .todo-item:hover {
+        background: #f9f9f9;
+        border-radius: 8px;
+      }
+
+      /* Checkbox toggle */
+      .todo-item input[type='checkbox'] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: #4f8ef7;
+      }
+
+      /* ข้อความ todo */
+      .todo-text {
+        flex: 1;
+        font-size: 1rem;
+        color: #333;
+      }
+
+      /* ขีดทับเมื่อ done */
+      .todo-text.done {
+        text-decoration: line-through;
+        color: #aaa;
+      }
+
+      /* ปุ่มลบ */
+      .delete-btn {
+        background: none;
+        border: none;
+        color: #e74c3c;
+        font-size: 1.1rem;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 6px;
+        transition: background 0.15s;
+      }
+
+      .delete-btn:hover {
+        background: #fdecea;
+      }
+
+      /* ข้อความเมื่อไม่มี todo */
+      .empty-msg {
+        text-align: center;
+        color: #aaa;
+        padding: 20px 0;
+        font-size: 0.95rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>📝 Todo App</h1>
+
+      <!-- ฟอร์มเพิ่ม todo -->
+      <div class="input-row">
+        <input
+          id="todo-input"
+          type="text"
+          placeholder="เพิ่มรายการใหม่..."
+          autocomplete="off"
+        />
+        <button id="add-btn">เพิ่ม</button>
+      </div>
+
+      <!-- รายการ todo จะถูก render โดย app.js -->
+      <ul id="todo-list"></ul>
+    </div>
+
+    <!-- โหลด JavaScript หลังจาก DOM พร้อม -->
+    <script src="app.js"></script>
+  </body>
+</html>
