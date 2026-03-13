@@ -2,6 +2,7 @@
 const input = document.getElementById('todo-input');
 const addBtn = document.getElementById('add-btn');
 const list = document.getElementById('todo-list');
+const pendingCount = document.getElementById('pending-count');
 
 // ---- Fetch helpers ----
 
@@ -49,31 +50,39 @@ function renderTodos(todos) {
   // ล้างรายการเดิมออก
   list.innerHTML = '';
 
+  // อัพเดตตัวนับ task ที่ยังไม่เสร็จ
+  pendingCount.textContent = todos.filter((t) => !t.done).length;
+
   // ถ้าไม่มีรายการ แสดงข้อความ empty
   if (todos.length === 0) {
-    list.innerHTML = '<p class="empty-msg">ยังไม่มีรายการ ลองเพิ่มดูสิ!</p>';
+    list.innerHTML =
+      '<p class="text-center text-zinc-600 text-sm py-8">ยังไม่มีรายการ ลองเพิ่มดูสิ!</p>';
     return;
   }
 
   // วนสร้าง <li> สำหรับแต่ละ todo
   todos.forEach((todo) => {
     const li = document.createElement('li');
-    li.className = 'todo-item';
+    // Tailwind: card สีเทาเข้ม มี border และ hover effect
+    li.className =
+      'flex items-center gap-3 rounded-lg bg-zinc-800 border border-zinc-700 px-4 py-3 group transition hover:border-zinc-600';
 
     // Checkbox — ติ๊กเพื่อ toggle สถานะ done
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.checked = todo.done;
+    checkbox.className = 'w-4 h-4 accent-violet-500 cursor-pointer flex-shrink-0';
     checkbox.addEventListener('change', () => toggleTodo(todo.id));
 
-    // ข้อความ todo — ขีดทับถ้า done
+    // ข้อความ todo — ขีดทับถ้า done (class .done ถูก style ใน <style> ใน HTML)
     const span = document.createElement('span');
-    span.className = 'todo-text' + (todo.done ? ' done' : '');
+    span.className = 'todo-text flex-1 text-sm text-zinc-100' + (todo.done ? ' done' : '');
     span.textContent = todo.text;
 
-    // ปุ่มลบ
+    // ปุ่มลบ — ซ่อนอยู่ โผล่เมื่อ hover ที่ row
     const delBtn = document.createElement('button');
-    delBtn.className = 'delete-btn';
+    delBtn.className =
+      'opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-red-400 transition text-lg leading-none px-1';
     delBtn.textContent = '✕';
     delBtn.title = 'ลบรายการ';
     delBtn.addEventListener('click', () => deleteTodo(todo.id));
