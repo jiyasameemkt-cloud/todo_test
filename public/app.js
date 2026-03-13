@@ -9,8 +9,8 @@ const pendingCount = document.getElementById('pending-count');
 // ดึง todo ทั้งหมดจาก server แล้ว render
 async function loadTodos() {
   const res = await fetch('/api/todos');
-  const todos = await res.json();
-  renderTodos(todos);
+  const { data } = await res.json();
+  renderTodos(data);
 }
 
 // เพิ่ม todo ใหม่ผ่าน POST
@@ -33,7 +33,7 @@ async function addTodo(text) {
 
 // toggle done/undone ของ todo ตาม id
 async function toggleTodo(id) {
-  await fetch(`/api/todos/${id}`, { method: 'PATCH' });
+  await fetch(`/api/todos/${id}`, { method: 'PUT' });
   loadTodos();
 }
 
