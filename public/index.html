@@ -1,57 +1,173 @@
 <!DOCTYPE html>
-<html lang="th" class="bg-zinc-950">
+<html lang="th">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Todo List</title>
-    <!-- Tailwind CSS via CDN -->
+    <title>Todo Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#465FFF',
+            },
+          },
+        },
+      };
+    </script>
     <style>
-      /* ขีดทับข้อความเมื่อ task เสร็จแล้ว */
       .todo-text.done {
         text-decoration: line-through;
-        opacity: 0.4;
+        color: #9ca3af;
       }
     </style>
   </head>
 
-  <body class="min-h-screen bg-zinc-950 text-zinc-100 flex items-start justify-center px-4 py-16">
+  <body class="bg-gray-50 font-sans antialiased">
 
-    <div class="w-full max-w-lg">
+    <!-- ======== Layout wrapper ======== -->
+    <div class="flex min-h-screen">
 
-      <!-- ---- Header ---- -->
-      <div class="mb-8 text-center">
-        <h1 class="text-4xl font-bold tracking-tight text-white">My Todo List</h1>
-        <!-- นับจำนวน task ที่ยังไม่เสร็จ — อัพเดตโดย app.js -->
-        <p class="mt-2 text-sm text-zinc-500">
-          <span id="pending-count">0</span> task ที่ยังไม่เสร็จ
-        </p>
+      <!-- ======== Sidebar ======== -->
+      <aside class="hidden md:flex flex-col w-64 bg-white border-r border-gray-200 px-4 py-6 shrink-0">
+
+        <!-- Logo -->
+        <div class="flex items-center gap-2 px-2 mb-8">
+          <div class="w-8 h-8 rounded-lg bg-[#465FFF] flex items-center justify-center text-white font-bold text-sm">T</div>
+          <span class="text-gray-900 font-semibold text-base">TodoAdmin</span>
+        </div>
+
+        <!-- Nav -->
+        <nav class="flex-1 space-y-1 text-sm">
+          <!-- Active item -->
+          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-[#465FFF] font-medium">
+            <!-- icon: list -->
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            My Todos
+          </a>
+          <!-- Inactive items (placeholder) -->
+          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+            Analytics
+          </a>
+          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            Settings
+          </a>
+        </nav>
+
+        <!-- User profile -->
+        <div class="flex items-center gap-3 px-2 pt-4 border-t border-gray-100">
+          <div class="w-8 h-8 rounded-full bg-[#465FFF] flex items-center justify-center text-white text-xs font-semibold shrink-0">JD</div>
+          <div class="min-w-0">
+            <p class="text-sm font-medium text-gray-800 truncate">John Doe</p>
+            <p class="text-xs text-gray-400 truncate">admin@todo.com</p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ======== Main area ======== -->
+      <div class="flex-1 flex flex-col min-w-0">
+
+        <!-- ---- Top header ---- -->
+        <header class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between shrink-0">
+          <div>
+            <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Dashboard</p>
+            <h1 class="text-xl font-semibold text-gray-900 leading-tight">My Todo List</h1>
+          </div>
+          <!-- Add button (mobile) -->
+          <button
+            id="mobile-add-btn"
+            class="md:hidden flex items-center gap-1.5 bg-[#465FFF] hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+            เพิ่ม
+          </button>
+        </header>
+
+        <!-- ---- Page content ---- -->
+        <main class="flex-1 p-6 space-y-6 overflow-y-auto">
+
+          <!-- Stat cards row -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+            <!-- Total -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-5">
+              <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-1">Total</p>
+              <p id="stat-total" class="text-3xl font-bold text-gray-900">0</p>
+            </div>
+
+            <!-- Pending -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-5">
+              <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-1">Pending</p>
+              <p id="stat-pending" class="text-3xl font-bold text-orange-500">0</p>
+            </div>
+
+            <!-- Done -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-5">
+              <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-1">Done</p>
+              <p id="stat-done" class="text-3xl font-bold text-green-500">0</p>
+            </div>
+
+            <!-- Progress -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-5">
+              <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-1">Progress</p>
+              <p id="stat-progress" class="text-3xl font-bold text-[#465FFF]">0%</p>
+            </div>
+
+          </div>
+
+          <!-- Input card -->
+          <div class="bg-white rounded-2xl border border-gray-200 p-5">
+            <h2 class="text-sm font-semibold text-gray-700 mb-3">เพิ่ม Task ใหม่</h2>
+            <div class="flex gap-2">
+              <input
+                id="todo-input"
+                type="text"
+                placeholder="พิมพ์รายการที่ต้องทำ..."
+                autocomplete="off"
+                class="flex-1 text-sm border border-gray-200 rounded-lg px-4 py-2.5 text-gray-800 placeholder-gray-400 outline-none focus:border-[#465FFF] focus:ring-2 focus:ring-blue-100 transition"
+              />
+              <button
+                id="add-btn"
+                class="flex items-center gap-1.5 bg-[#465FFF] hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-colors whitespace-nowrap"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                </svg>
+                เพิ่ม Task
+              </button>
+            </div>
+          </div>
+
+          <!-- Todo list card -->
+          <div class="bg-white rounded-2xl border border-gray-200">
+
+            <!-- Card header -->
+            <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+              <h2 class="text-sm font-semibold text-gray-700">รายการทั้งหมด</h2>
+              <span id="pending-count" class="text-xs font-medium bg-orange-50 text-orange-500 px-2.5 py-1 rounded-full">0 pending</span>
+            </div>
+
+            <!-- List — app.js render เข้ามาที่นี่ -->
+            <ul id="todo-list" class="divide-y divide-gray-50"></ul>
+
+          </div>
+
+        </main>
       </div>
-
-      <!-- ---- Input row ---- -->
-      <div class="flex gap-2 mb-6">
-        <input
-          id="todo-input"
-          type="text"
-          placeholder="เพิ่ม task ใหม่..."
-          autocomplete="off"
-          class="flex-1 rounded-lg bg-zinc-800 border border-zinc-700 px-4 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition"
-        />
-        <button
-          id="add-btn"
-          class="rounded-lg bg-violet-600 hover:bg-violet-500 active:bg-violet-700 px-5 py-2.5 text-sm font-semibold text-white transition"
-        >
-          + เพิ่ม
-        </button>
-      </div>
-
-      <!-- ---- Todo list ---- -->
-      <!-- app.js จะ render <li> เข้ามาใน ul นี้ -->
-      <ul id="todo-list" class="space-y-2"></ul>
-
     </div>
 
-    <!-- โหลด JavaScript ที่ท้าย body -->
     <script src="app.js"></script>
   </body>
 </html>
